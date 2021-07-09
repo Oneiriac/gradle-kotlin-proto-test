@@ -1,0 +1,44 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.20'
+    id "com.google.protobuf" version "0.8.16"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'com.google.protobuf:protobuf-java:3.17.3'
+    implementation 'com.google.protobuf:protobuf-kotlin:3.17.3'
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+        freeCompilerArgs = ['-progressive', '-java-parameters', '-Xopt-in=kotlin.RequiresOptIn']
+    }
+}
+
+/*
+Protobuf configs
+*/
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.17.3'
+    }
+
+    plugins {
+        kotlin {}
+    }
+
+    generateProtoTasks.all().configureEach {
+        it.plugins {
+            kotlin {}
+        }
+    }
+}
